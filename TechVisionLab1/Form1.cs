@@ -7,6 +7,8 @@ namespace TechVisionLab1
 {
     public partial class Form1 : Form
     {
+        
+
         List<int> PointsX = new List<int>();
         List<int> PointsY = new List<int>();
         List<int> PointsZ = new List<int>();
@@ -14,6 +16,7 @@ namespace TechVisionLab1
         public Form1()
         {
             InitializeComponent();
+            
         }
         private void OpenFile_Click(object sender, EventArgs e)
         {
@@ -125,7 +128,6 @@ namespace TechVisionLab1
         {
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
-
             for (int i = 0; i < CountPoints; i++)
             {
                 Color PointColor = Color.FromArgb(255, 0, PointsZ[i], 0);
@@ -139,16 +141,23 @@ namespace TechVisionLab1
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
             int cordY = -20;
+            int cordX = 1;
             int period = int.Parse(textBox1.Text);
             for (int i = 0; i < CountPoints; i++)
             {
                 if (i % period == 0)
+                {
                     cordY += 21;
+                    cordX = 1;
+                }
+                    
+                    
                 if (i % period < period)
                 {
-                    Color PointColor = Color.FromArgb(255, 0, 0, PointsX[i] / 4);
+                    Color PointColor = Color.FromArgb(255, (int)(PointsX[i]/4), (int)(PointsY[i]/4), PointsZ[i]);
                     Brush brush = new SolidBrush(PointColor);
-                    g.FillRectangle(brush, (int)(PointsX[i] / 2.56), cordY, 5, 20);
+                    g.FillRectangle(brush, cordX/*(int)(PointsX[] / 2.56)*/, cordY, 20, 20);
+                    cordX += 21;
                 }
             }
         }
