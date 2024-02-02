@@ -7,8 +7,6 @@ namespace TechVisionLab1
 {
     public partial class Form1 : Form
     {
-        
-
         List<int> PointsX = new List<int>();
         List<int> PointsY = new List<int>();
         List<int> PointsZ = new List<int>();
@@ -150,8 +148,7 @@ namespace TechVisionLab1
                     cordY += 21;
                     cordX = 1;
                 }
-                    
-                    
+                     
                 if (i % period < period)
                 {
                     Color PointColor = Color.FromArgb(255, (int)(PointsX[i]/4), (int)(PointsY[i]/4), PointsZ[i]);
@@ -188,7 +185,7 @@ namespace TechVisionLab1
 
                 Color PointColor = Color.FromArgb(255, 0, PointsZ[i], 0);
                 Brush brush = new SolidBrush(PointColor);
-                g.FillEllipse(brush, (int)(PointsX[i] / 2.56), (int)(PointsY[i] / 2.56), 3, 3);
+                g.FillEllipse(brush, (int)(PointsX[i] / 2.56), (int)(PointsY[i] / 2.56), 5, 5);
             }
         }
 
@@ -203,11 +200,8 @@ namespace TechVisionLab1
                 for (int j = 0; j < CountPoints; j++)
                 {
                     double x = Math.Sqrt(Math.Pow(PointsX[j] - PointsX[i], 2) + Math.Pow(PointsY[j] - PointsY[i], 2));
-
                     if (x <= 45)
-                    {
                         PointsInCluster++;
-                    }  
                 }
                 if (PointsInCluster > CountPoints / 85.3)
                 {
