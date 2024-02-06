@@ -13,12 +13,14 @@ namespace TechVisionLab1
         public int Z { get; set; }
         public bool InCluster = false;
         public Color color;
+        public int numCluster = 0;
         
         public DPoint(int x, int y, int z)
         {
             X = x;
             Y = y;
             Z = z;
+            //color = Color.FromArgb(255, 0, 0, Z / 4);
         }
     }
 }

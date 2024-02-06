@@ -10,23 +10,28 @@ namespace TechVisionLab1
     {
         public int centerX { get; set; }
         public int centerY { get; set; }
-        public Color color = Color.FromArgb(255, new Random().Next(0,255),
-                                                    new Random().Next(0, 255),
-                                                    new Random().Next(0, 255));
+        public Color color {  get; set; }
         public int NumOfCluster { get; set; }
         public int CountPointsInCluster { get; set; }
+        public List<DPoint> Points { get; set; }
 
-        public List<int> X;
-        public List<int> Y;
-
-        public Cluster(int numOfCluster, int countPoints, List<int> x, List<int> y, int cX, int cY)
+        public Cluster(int numOfCluster, int countPoints, int cX, int cY, List<DPoint> points, Color ccolor)
         {
             NumOfCluster = numOfCluster;
             CountPointsInCluster = countPoints;
-            X = x;
-            Y = y;
             centerX = cX;
             centerY = cY;
+            Points = points;
+            color = ccolor;
+        }
+
+        public void PaintPoint()
+        {
+            for (int i = 0; i < Points.Count; i++)
+            {
+                Points[i].color = color;
+                Points[i].numCluster = NumOfCluster;
+            }
         }
     }
 }

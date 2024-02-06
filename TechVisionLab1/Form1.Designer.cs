@@ -37,16 +37,17 @@
             CountPointLabel = new Label();
             PointGeneration = new Button();
             dataGridView1 = new DataGridView();
-            X = new DataGridViewTextBoxColumn();
-            Y = new DataGridViewTextBoxColumn();
-            Z = new DataGridViewTextBoxColumn();
-            ShowData = new Button();
             pictureBox1 = new PictureBox();
             Draw = new Button();
             DrawPeriod = new Button();
             textBox1 = new TextBox();
             Task4 = new Button();
             Clusters = new Button();
+            ClusterSizeTB = new TextBox();
+            X = new DataGridViewTextBoxColumn();
+            Y = new DataGridViewTextBoxColumn();
+            Z = new DataGridViewTextBoxColumn();
+            Cluster = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)CountPointTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -117,43 +118,12 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { X, Y, Z });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { X, Y, Z, Cluster });
             dataGridView1.Location = new Point(12, 164);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(403, 391);
             dataGridView1.TabIndex = 7;
-            // 
-            // X
-            // 
-            X.HeaderText = "X";
-            X.MinimumWidth = 6;
-            X.Name = "X";
-            X.Width = 125;
-            // 
-            // Y
-            // 
-            Y.HeaderText = "Y";
-            Y.MinimumWidth = 6;
-            Y.Name = "Y";
-            Y.Width = 125;
-            // 
-            // Z
-            // 
-            Z.HeaderText = "Z";
-            Z.MinimumWidth = 6;
-            Z.Name = "Z";
-            Z.Width = 125;
-            // 
-            // ShowData
-            // 
-            ShowData.Location = new Point(12, 117);
-            ShowData.Name = "ShowData";
-            ShowData.Size = new Size(403, 29);
-            ShowData.TabIndex = 8;
-            ShowData.Text = "Show Data";
-            ShowData.UseVisualStyleBackColor = true;
-            ShowData.Click += DataGridShow;
             // 
             // pictureBox1
             // 
@@ -203,7 +173,7 @@
             // 
             // Clusters
             // 
-            Clusters.Location = new Point(827, 117);
+            Clusters.Location = new Point(827, 155);
             Clusters.Name = "Clusters";
             Clusters.Size = new Size(161, 29);
             Clusters.TabIndex = 14;
@@ -211,18 +181,54 @@
             Clusters.UseVisualStyleBackColor = true;
             Clusters.Click += Clusters_Click;
             // 
+            // ClusterSizeTB
+            // 
+            ClusterSizeTB.Location = new Point(827, 119);
+            ClusterSizeTB.Name = "ClusterSizeTB";
+            ClusterSizeTB.Size = new Size(161, 27);
+            ClusterSizeTB.TabIndex = 15;
+            // 
+            // X
+            // 
+            X.HeaderText = "X";
+            X.MinimumWidth = 6;
+            X.Name = "X";
+            X.Width = 125;
+            // 
+            // Y
+            // 
+            Y.HeaderText = "Y";
+            Y.MinimumWidth = 6;
+            Y.Name = "Y";
+            Y.Width = 125;
+            // 
+            // Z
+            // 
+            Z.HeaderText = "Z";
+            Z.MinimumWidth = 6;
+            Z.Name = "Z";
+            Z.Width = 125;
+            // 
+            // Cluster
+            // 
+            Cluster.HeaderText = "Cluster";
+            Cluster.MinimumWidth = 6;
+            Cluster.Name = "Cluster";
+            Cluster.SortMode = DataGridViewColumnSortMode.Programmatic;
+            Cluster.Width = 125;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(999, 561);
+            Controls.Add(ClusterSizeTB);
             Controls.Add(Clusters);
             Controls.Add(Task4);
             Controls.Add(textBox1);
             Controls.Add(DrawPeriod);
             Controls.Add(Draw);
             Controls.Add(pictureBox1);
-            Controls.Add(ShowData);
             Controls.Add(dataGridView1);
             Controls.Add(PointGeneration);
             Controls.Add(CountPointLabel);
@@ -251,15 +257,16 @@
         private Label CountPointLabel;
         private Button PointGeneration;
         private DataGridView dataGridView1;
-        private Button ShowData;
-        private DataGridViewTextBoxColumn X;
-        private DataGridViewTextBoxColumn Y;
-        private DataGridViewTextBoxColumn Z;
         private PictureBox pictureBox1;
         private Button Draw;
         private Button DrawPeriod;
         private TextBox textBox1;
         private Button Task4;
         private Button Clusters;
+        private TextBox ClusterSizeTB;
+        private DataGridViewTextBoxColumn X;
+        private DataGridViewTextBoxColumn Y;
+        private DataGridViewTextBoxColumn Z;
+        private DataGridViewTextBoxColumn Cluster;
     }
 }
