@@ -24,17 +24,7 @@ namespace TechVisionLab1
             string fileText = System.IO.File.ReadAllText(filename);
             richTextBox1.Text = fileText;
 
-            FindCountPoints();
-
-            DataToList();
-        }
-
-        private void FindCountPoints()
-        {
-            string DataStr = richTextBox1.Text;
-            DataStr = DataStr.Remove(DataStr.Length - 1);
-            int[] ints = Array.ConvertAll(DataStr.Split(), int.Parse);
-            CountPoints = ints.Length/3;
+            DataToList(fileText);
         }
 
         private void SaveFile_Click(object sender, EventArgs e)
@@ -74,11 +64,11 @@ namespace TechVisionLab1
             pictureBox1.Image = null;
         }
 
-        private void DataToList()
-        {
-            string DataStr = richTextBox1.Text;
+        private void DataToList(string DataStr)
+        {            
             DataStr = DataStr.Remove(DataStr.Length - 1);
             int[] ints = Array.ConvertAll(DataStr.Split(), int.Parse);
+            CountPoints = ints.Length / 3;
             for (int i = 0; i < ints.Length; i+=3)
             {
                 Points.Add(new DPoint(ints[i], ints[i+1], ints[i+2]));
@@ -125,13 +115,10 @@ namespace TechVisionLab1
                     cordX = 0;
                 }
                      
-                if (i % period < period)
-                {
-                    Color PointColor = Color.FromArgb(255, (int)(Points[i].X /4), (int)(Points[i].Y /4), (int)(Points[i].Z / 4));
-                    Brush brush = new SolidBrush(PointColor);
-                    g.FillRectangle(brush, cordX, cordY, 20, 20);
-                    cordX += 20;
-                }
+                Color PointColor = Color.FromArgb(255, (int)(Points[i].X /4), (int)(Points[i].Y /4), (int)(Points[i].Z / 4));
+                Brush brush = new SolidBrush(PointColor);
+                g.FillRectangle(brush, cordX, cordY, 20, 20);
+                cordX += 20;
             }
         }
 
@@ -199,7 +186,7 @@ namespace TechVisionLab1
                 {
                     Points[i].InCluster = true;
                     ClusterPoints.Add(Points[i]);
-                    clusters.Add(new Cluster(i, CountPoints, (int)(Points[i].X), (int)(Points[i].Y), ClusterPoints, 
+                    clusters.Add(new Cluster(i, ClusterPoints.Count, (int)(Points[i].X), (int)(Points[i].Y), ClusterPoints, 
                         Color.FromArgb(255, new Random().Next(255), new Random().Next(255), new Random().Next(255))));
                 }
                 else
