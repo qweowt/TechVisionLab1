@@ -106,7 +106,16 @@ namespace TechVisionLab1
             Graphics g = Graphics.FromImage(pictureBox1.Image);
             int cordY = -20;
             int cordX = 0;
-            int period = int.Parse(textBox1.Text);
+            int period= 0;
+            try
+            {
+                period = int.Parse(textBox1.Text);
+            }
+            catch
+            {
+                MessageBox.Show("¬ведите период");
+                return;
+            }
             for (int i = 0; i < CountPoints; i++)
             {
                 if (i % period == 0)
@@ -164,7 +173,9 @@ namespace TechVisionLab1
                 Points[i].color = Color.Gray;
             }
             List<Cluster> clusters = new List<Cluster>();
-            int ClusterSize = int.Parse(ClusterSizeTB.Text);
+            int ClusterSize = 0;
+            try{ClusterSize = int.Parse(ClusterSizeTB.Text);}
+            catch{MessageBox.Show("¬ведите размер кластеров");return;}
             for (int i = 0; i < CountPoints; i++)
             {
                 List<DPoint> ClusterPoints = new List<DPoint>();
