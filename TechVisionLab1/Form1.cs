@@ -14,7 +14,6 @@ namespace TechVisionLab1
         public Form1()
         {
             InitializeComponent();
-            
         }
         private void OpenFile_Click(object sender, EventArgs e)
         {
@@ -88,6 +87,7 @@ namespace TechVisionLab1
 
         private void DataGridShow()
         {
+            dataGridView1.Rows.Clear ();
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
 
@@ -115,14 +115,14 @@ namespace TechVisionLab1
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
             int cordY = -20;
-            int cordX = 1;
+            int cordX = 0;
             int period = int.Parse(textBox1.Text);
             for (int i = 0; i < CountPoints; i++)
             {
                 if (i % period == 0)
                 {
-                    cordY += 21;
-                    cordX = 1;
+                    cordY += 20;
+                    cordX = 0;
                 }
                      
                 if (i % period < period)
@@ -130,14 +130,16 @@ namespace TechVisionLab1
                     Color PointColor = Color.FromArgb(255, (int)(Points[i].X /4), (int)(Points[i].Y /4), (int)(Points[i].Z / 4));
                     Brush brush = new SolidBrush(PointColor);
                     g.FillRectangle(brush, cordX, cordY, 20, 20);
-                    cordX += 21;
+                    cordX += 20;
                 }
             }
         }
 
         private void Task4_Click(object sender, EventArgs e)
         {
-            double sum1 = 0, sum2 = 0, sum3 = 0;
+            double sum1 = 0;
+            double sum2 = 0;
+            double sum3 = 0;
             double sum4 = 0;
 
             for (int i = 0; i < CountPoints; i++)
@@ -147,7 +149,7 @@ namespace TechVisionLab1
                 sum3 += Points[i].Y;
                 sum4 += Math.Pow(Points[i].X, 2);
             }
-            double A = ((CountPoints * sum1 - sum2) / (sum4 - Math.Pow(sum2, 2)));
+            double A = ((CountPoints * sum1 - sum2 * sum3) / (sum4 - Math.Pow(sum2, 2)));
             double B = ((sum3 - A * sum2) / CountPoints);
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -155,51 +157,63 @@ namespace TechVisionLab1
 
             for (int i = 0; i < CountPoints; i++)
             {
-                double y = (A * Points[i].X + B);
-                Brush brush1 = new SolidBrush(Color.Red);
-                g.FillEllipse(brush1, (int)(Points[i].X / 2.56), (int)(y / 2.56), 5, 5);
-
                 Brush brush = new SolidBrush(Color.FromArgb(255, 0, 0, (int)(Points[i].Z/4)));
                 g.FillEllipse(brush, (int)(Points[i].X / 2.56), (int)(Points[i].Y / 2.56), 5, 5);
             }
+            int y0 = (int)((A * 0 + B) / 2.56);
+            int y = (int)((A * 1023 + B) / 2.56);
+            int x0 = 0;
+            int x = (int)(1023 / 2.56);
+            g.DrawLine(new Pen(Color.Red), x0, y0, x, y);
+
         }
 
         private void Clusters_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {
                 Points[i].numCluster = 0;
                 Points[i].InCluster = false;
+                Points[i].color = Color.Gray;
             }
             List<Cluster> clusters = new List<Cluster>();
             int ClusterSize = int.Parse(ClusterSizeTB.Text);
             for (int i = 0; i < CountPoints; i++)
             {
                 List<DPoint> ClusterPoints = new List<DPoint>();
-                for (int j = i+1; j < CountPoints; j++)
+                for (int j = 0; j < CountPoints; j++)
                 {
                     double L = Math.Sqrt(Math.Pow(Points[j].X - Points[i].X, 2) + Math.Pow(Points[j].Y - Points[i].Y, 2));
 
                     if (L <= ClusterSize && Points[i].InCluster == false && Points[j].InCluster == false)
                     {
-                        //PointsInCluster++;
-                        Points[j].InCluster = true;
-                        ClusterPoints.Add(Points[j]);
+                        if (Points[i] != Points[j])
+                        {
+                            Points[j].InCluster = true;
+                            ClusterPoints.Add(Points[j]);
+                        }
                     }
                 }
 
                 if (ClusterPoints.Count > ClusterSize/5)
                 {
-                    clusters.Add(new Cluster(i, CountPoints, (int)(Points[i].X), (int)(Points[i].Y), ClusterPoints, Color.FromArgb(255, new Random().Next(255), new Random().Next(255), new Random().Next(255))));
                     Points[i].InCluster = true;
+                    ClusterPoints.Add(Points[i]);
+                    clusters.Add(new Cluster(i, CountPoints, (int)(Points[i].X), (int)(Points[i].Y), ClusterPoints, 
+                        Color.FromArgb(255, new Random().Next(255), new Random().Next(255), new Random().Next(255))));
+                }
+                else
+                {
+                    for (int j = 0;j < ClusterPoints.Count; j++)
+                    {
+                        ClusterPoints[j].InCluster = false;
+                    }
                 }
                 
             }
 
             for(int i = 0; i < clusters.Count; i++)
-            {
                 clusters[i].PaintPoint();
-            }
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
             

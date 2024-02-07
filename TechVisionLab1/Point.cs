@@ -20,7 +20,7 @@ namespace TechVisionLab1
             X = x;
             Y = y;
             Z = z;
-            //color = Color.FromArgb(255, 0, 0, Z / 4);
+            color = Color.FromArgb(255, 0, 0, Z / 4);
         }
     }
 }
