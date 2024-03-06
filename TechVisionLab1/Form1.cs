@@ -60,6 +60,7 @@ namespace TechVisionLab1
         {
             data = "";
             Points.Clear();
+            
             dataGridView1.Rows.Clear();
             pictureBox1.Image = null;
         }
@@ -103,7 +104,7 @@ namespace TechVisionLab1
             Graphics g = Graphics.FromImage(pictureBox1.Image);
             int cordY = -20;
             int cordX = 0;
-            int period= 0;
+            int period = 0;
             try
             {
                 period = int.Parse(textBox1.Text);
@@ -121,7 +122,7 @@ namespace TechVisionLab1
                     cordX = 0;
                 }
                      
-                Color PointColor = Color.FromArgb(255, (int)(Points[i].X /4), (int)(Points[i].Y /4), (int)(Points[i].Z / 4));
+                Color PointColor = Color.FromArgb(255, 0, (int)(Points[i].Y / 4)*2, 0);
                 Brush brush = new SolidBrush(PointColor);
                 g.FillRectangle(brush, cordX, cordY, 20, 20);
                 cordX += 20;
@@ -174,8 +175,13 @@ namespace TechVisionLab1
                 Points[i].color = Color.Gray;
             }
             List<Cluster> clusters = new List<Cluster>();
-            int ClusterSize = 0;
-            try{ClusterSize = int.Parse(ClusterSizeTB.Text);}
+            int? ClusterSize;
+            int? PointsInCluster;
+            try
+            {
+                ClusterSize = int.Parse(ClusterSizeTB.Text);
+                PointsInCluster = int.Parse(CountPointsInCluster.Text);
+            }
             catch{MessageBox.Show("¬ведите размер кластеров");return;}
             for (int i = 0; i < Points.Count; i++)
             {
@@ -194,7 +200,7 @@ namespace TechVisionLab1
                     }
                 }
 
-                if (ClusterPoints.Count > ClusterSize/5)
+                if (ClusterPoints.Count >= PointsInCluster)
                 {
                     Points[i].InCluster = true;
                     ClusterPoints.Add(Points[i]);
@@ -204,14 +210,46 @@ namespace TechVisionLab1
                 else
                 {
                     for (int j = 0;j < ClusterPoints.Count; j++)
-                    {
                         ClusterPoints[j].InCluster = false;
-                    }
                 }
                 
             }
+            while (PointsInCluster > 0)
+            {
+                for (int i = 0; i < Points.Count; i++)
+                {
+                    List<DPoint> ClusterPoints = new List<DPoint>();
+                    for (int j = 0; i < Points.Count; i++)
+                    {
+                        double L = Math.Sqrt(Math.Pow(Points[j].X - Points[i].X, 2) + Math.Pow(Points[j].Y - Points[i].Y, 2));
 
-            for(int i = 0; i < clusters.Count; i++)
+                        if (L <= ClusterSize && Points[i].InCluster == false && Points[j].InCluster == false)
+                        {
+                            if (Points[i] != Points[j])
+                            {
+                                Points[j].InCluster = true;
+                                ClusterPoints.Add(Points[j]);
+                            }
+                        }
+                    }
+
+                    if (ClusterPoints.Count >= PointsInCluster)
+                    {
+                        Points[i].InCluster = true;
+                        ClusterPoints.Add(Points[i]);
+                        clusters.Add(new Cluster(i, ClusterPoints.Count, (int)(Points[i].X), (int)(Points[i].Y), ClusterPoints,
+                            Color.FromArgb(255, new Random().Next(255), new Random().Next(255), new Random().Next(255))));
+                    }
+                    else
+                    {
+                        for (int j = 0; j < ClusterPoints.Count; j++)
+                            ClusterPoints[j].InCluster = false;
+                    }
+                }
+                PointsInCluster--;
+            }
+
+            for (int i = 0; i < clusters.Count; i++)
                 clusters[i].PaintPoint();
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);

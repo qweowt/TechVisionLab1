@@ -47,6 +47,7 @@
             Task4 = new Button();
             Clusters = new Button();
             ClusterSizeTB = new TextBox();
+            CountPointsInCluster = new TextBox();
             ((System.ComponentModel.ISupportInitialize)CountPointTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -192,7 +193,7 @@
             // 
             // Clusters
             // 
-            Clusters.Location = new Point(827, 155);
+            Clusters.Location = new Point(826, 185);
             Clusters.Name = "Clusters";
             Clusters.Size = new Size(161, 29);
             Clusters.TabIndex = 14;
@@ -207,11 +208,19 @@
             ClusterSizeTB.Size = new Size(161, 27);
             ClusterSizeTB.TabIndex = 15;
             // 
+            // CountPointsInCluster
+            // 
+            CountPointsInCluster.Location = new Point(826, 152);
+            CountPointsInCluster.Name = "CountPointsInCluster";
+            CountPointsInCluster.Size = new Size(161, 27);
+            CountPointsInCluster.TabIndex = 16;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(999, 561);
+            Controls.Add(CountPointsInCluster);
             Controls.Add(ClusterSizeTB);
             Controls.Add(Clusters);
             Controls.Add(Task4);
@@ -255,5 +264,6 @@
         private DataGridViewTextBoxColumn Y;
         private DataGridViewTextBoxColumn Z;
         private DataGridViewTextBoxColumn Cluster;
+        private TextBox CountPointsInCluster;
     }
 }
