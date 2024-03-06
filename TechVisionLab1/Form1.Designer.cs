@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            richTextBox1 = new RichTextBox();
             OpenFile = new Button();
             openFileDialog1 = new OpenFileDialog();
             SaveFile = new Button();
@@ -37,6 +36,10 @@
             CountPointLabel = new Label();
             PointGeneration = new Button();
             dataGridView1 = new DataGridView();
+            X = new DataGridViewTextBoxColumn();
+            Y = new DataGridViewTextBoxColumn();
+            Z = new DataGridViewTextBoxColumn();
+            Cluster = new DataGridViewTextBoxColumn();
             pictureBox1 = new PictureBox();
             Draw = new Button();
             DrawPeriod = new Button();
@@ -44,23 +47,10 @@
             Task4 = new Button();
             Clusters = new Button();
             ClusterSizeTB = new TextBox();
-            X = new DataGridViewTextBoxColumn();
-            Y = new DataGridViewTextBoxColumn();
-            Z = new DataGridViewTextBoxColumn();
-            Cluster = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)CountPointTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
-            // 
-            // richTextBox1
-            // 
-            richTextBox1.Location = new Point(185, 12);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ReadOnly = true;
-            richTextBox1.Size = new Size(636, 64);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
             // 
             // OpenFile
             // 
@@ -125,6 +115,35 @@
             dataGridView1.Size = new Size(403, 391);
             dataGridView1.TabIndex = 7;
             // 
+            // X
+            // 
+            X.HeaderText = "X";
+            X.MinimumWidth = 6;
+            X.Name = "X";
+            X.Width = 125;
+            // 
+            // Y
+            // 
+            Y.HeaderText = "Y";
+            Y.MinimumWidth = 6;
+            Y.Name = "Y";
+            Y.Width = 125;
+            // 
+            // Z
+            // 
+            Z.HeaderText = "Z";
+            Z.MinimumWidth = 6;
+            Z.Name = "Z";
+            Z.Width = 125;
+            // 
+            // Cluster
+            // 
+            Cluster.HeaderText = "Cluster";
+            Cluster.MinimumWidth = 6;
+            Cluster.Name = "Cluster";
+            Cluster.SortMode = DataGridViewColumnSortMode.Programmatic;
+            Cluster.Width = 125;
+            // 
             // pictureBox1
             // 
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
@@ -188,35 +207,6 @@
             ClusterSizeTB.Size = new Size(161, 27);
             ClusterSizeTB.TabIndex = 15;
             // 
-            // X
-            // 
-            X.HeaderText = "X";
-            X.MinimumWidth = 6;
-            X.Name = "X";
-            X.Width = 125;
-            // 
-            // Y
-            // 
-            Y.HeaderText = "Y";
-            Y.MinimumWidth = 6;
-            Y.Name = "Y";
-            Y.Width = 125;
-            // 
-            // Z
-            // 
-            Z.HeaderText = "Z";
-            Z.MinimumWidth = 6;
-            Z.Name = "Z";
-            Z.Width = 125;
-            // 
-            // Cluster
-            // 
-            Cluster.HeaderText = "Cluster";
-            Cluster.MinimumWidth = 6;
-            Cluster.Name = "Cluster";
-            Cluster.SortMode = DataGridViewColumnSortMode.Programmatic;
-            Cluster.Width = 125;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -235,7 +225,6 @@
             Controls.Add(CountPointTrackBar);
             Controls.Add(SaveFile);
             Controls.Add(OpenFile);
-            Controls.Add(richTextBox1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
             Text = "Lab1Klimenko";
@@ -247,8 +236,6 @@
         }
 
         #endregion
-
-        private RichTextBox richTextBox1;
         private Button OpenFile;
         private OpenFileDialog openFileDialog1;
         private Button SaveFile;

@@ -11,6 +11,7 @@ namespace TechVisionLab1
         
         List<DPoint> Points = new List<DPoint>();
         int CountPoints = 0;
+        string data = "";
         public Form1()
         {
             InitializeComponent();
@@ -22,9 +23,8 @@ namespace TechVisionLab1
                 return;
             string filename = openFileDialog1.FileName;
             string fileText = System.IO.File.ReadAllText(filename);
-            richTextBox1.Text = fileText;
-
-            DataToList(fileText);
+            data = fileText;
+            DataToList(data);
         }
 
         private void SaveFile_Click(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace TechVisionLab1
             if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             string filename = saveFileDialog1.FileName;
-            System.IO.File.WriteAllText(filename, richTextBox1.Text);
+            System.IO.File.WriteAllText(filename, data);
         }
 
         private void CountPointTrackBar_Scroll(object sender, EventArgs e)
@@ -52,13 +52,13 @@ namespace TechVisionLab1
                 Y = random.Next(1023);
                 Z = random.Next(1023);
                 Points.Add(new DPoint(X,Y,Z));
-                richTextBox1.Text += $"{Points[i].X} {Points[i].Y} {Points[i].Z} ";
+                data += $"{Points[i].X} {Points[i].Y} {Points[i].Z} ";
             }
         }
 
         private void Clear()
         {
-            richTextBox1.Clear();
+            data = "";
             Points.Clear();
             dataGridView1.Rows.Clear();
             pictureBox1.Image = null;
@@ -82,17 +82,14 @@ namespace TechVisionLab1
             dataGridView1.AllowUserToAddRows = false;
 
             for (int i = 0; i < CountPoints; i++)
-                dataGridView1.Rows.Add(Points[i].X, Points[i].Y);
-
-            for (int i = 0; i < CountPoints; i++)
-                dataGridView1.Rows[i].Cells[2].Style.BackColor = Color.FromArgb(255, 0, 0, Points[i].Z/4);
+                dataGridView1.Rows.Add(Points[i].X, Points[i].Y, Points[i].Z);
         }
 
         private void Draw_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {   
                 Brush brush = new SolidBrush(Color.FromArgb(255, 0, 0, (int)(Points[i].Z / 4)));
                 g.FillEllipse(brush, (int)(Points[i].X / 2.56), (int)(Points[i].Y / 2.56), 3, 3);
@@ -116,7 +113,7 @@ namespace TechVisionLab1
                 MessageBox.Show("¬ведите период");
                 return;
             }
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {
                 if (i % period == 0)
                 {
@@ -137,21 +134,25 @@ namespace TechVisionLab1
             double sum2 = 0;
             double sum3 = 0;
             double sum4 = 0;
+            double sum5 = 0;
 
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {
                 sum1 += Points[i].X * Points[i].Y;
                 sum2 += Points[i].X;
                 sum3 += Points[i].Y;
                 sum4 += Math.Pow(Points[i].X, 2);
             }
-            double A = ((CountPoints * sum1 - sum2 * sum3) / (sum4 - Math.Pow(sum2, 2)));
-            double B = ((sum3 - A * sum2) / CountPoints);
+
+            double B = (sum1 * sum2 - sum3 * sum4)/(sum4 - Points.Count * sum4);
+            for (int i = 0; i < Points.Count; i++)
+                sum5 += Points[i].Y - B;
+            double A = sum5 / sum2;
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(pictureBox1.Image);
 
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {
                 Brush brush = new SolidBrush(Color.FromArgb(255, 0, 0, (int)(Points[i].Z/4)));
                 g.FillEllipse(brush, (int)(Points[i].X / 2.56), (int)(Points[i].Y / 2.56), 5, 5);
@@ -176,10 +177,10 @@ namespace TechVisionLab1
             int ClusterSize = 0;
             try{ClusterSize = int.Parse(ClusterSizeTB.Text);}
             catch{MessageBox.Show("¬ведите размер кластеров");return;}
-            for (int i = 0; i < CountPoints; i++)
+            for (int i = 0; i < Points.Count; i++)
             {
                 List<DPoint> ClusterPoints = new List<DPoint>();
-                for (int j = 0; j < CountPoints; j++)
+                for (int j = 0; j < Points.Count; j++)
                 {
                     double L = Math.Sqrt(Math.Pow(Points[j].X - Points[i].X, 2) + Math.Pow(Points[j].Y - Points[i].Y, 2));
 
